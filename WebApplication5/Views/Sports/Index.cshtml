@@ -1,0 +1,32 @@
+﻿@model IEnumerable<WebApplication5.Models.Sports>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="display-4">Sports</h2>
+
+<p class="d-flex justify-content-end">
+    @Html.ActionLink("Create New", "Create",new { }, new {@class="btn btn-primary"})
+</p>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SportsName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SportsName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SportsId }, new {@class="btn btn-outline-success btn-sm" }) | |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SportsId }, new { @class = "btn btn-outline-danger  btn-sm" })
+        </td>
+    </tr>
+}
+
+</table>

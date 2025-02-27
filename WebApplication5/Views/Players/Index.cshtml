@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WebApplication5.Models.Player>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="display-4">Player List</h2>
+<div class="d-flex justify-content-end">
+    @Html.ActionLink("Add New", "Create", new {}, new { @class = "btn btn-primary btn-sm" })
+</div>
+
+<div class="row">
+    <div class="col">
+        <table class="table table-bordered table-striped table-sm,mt-1">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(x => x.PlayerName)</th>
+                    <th>@Html.DisplayNameFor(x => x.Sports.SportsName)</th>
+                    <th>@Html.DisplayNameFor(x => x.JoinDate)</th>
+                    <th>@Html.DisplayNameFor(x => x.PlayerGrade)</th>
+                    <th>Picture</th>
+                    <th> Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(x => item.PlayerName)</td>
+                        <td>@Html.DisplayFor(x => item.Sports.SportsName)</td>
+                        <td>@Html.DisplayFor(x => item.JoinDate)</td>
+                        <td>@Html.DisplayFor(x => item.PlayerGrade)</td>
+                        <td>
+                        <img src="@Url.Content(item.PicturePath)" width="32" /></td>
+                        <td>
+                            <button onclick="location.href='@Url.Action("Edit", "Players", new {id=item.PlayerId})'" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></button>
+                            <button onclick="location.href='@Url.Action("Delete", "Players", new {id=item.PlayerId})'" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                        </td>
+                    </tr>
+                }
+        </table>
+    </div>
+</div>
