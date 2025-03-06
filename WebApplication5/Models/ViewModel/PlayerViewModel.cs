@@ -9,6 +9,7 @@ namespace WebApplication5.Models.ViewModel
 {
     public class PlayerViewModel
     {
+
         public int PlayerId { get; set; }
 
         [Required, StringLength(50, ErrorMessage = "Player name is requred"),

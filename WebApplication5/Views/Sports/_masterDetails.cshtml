@@ -1,0 +1,38 @@
+﻿@model IEnumerable<WebApplication5.Models.ViewModel.SportsViewModel>
+@using PagedList;
+@using PagedList.Mvc;
+
+<table class="table table-bordered table-striped table-sm" >
+    <thead class="table-primary">
+        <tr>
+            <th>
+                @Ajax.ActionLink("Sports Name","MasterView",new
+           { sort=ViewBag.NameSort,search=ViewBag.Search },new AjaxOptions
+           { InsertionMode=InsertionMode.Replace,UpdateTargetId="holder",
+               HttpMethod="post",AllowCache=false },new
+               {@clas="text-dark"})
+                <i class="fa @(ViewBag.NameSort=="name"?"fa-sort-desc":"fa-sort-asc")"></i>
+            </th>
+            <th>@Html.DisplayNameFor(x=>x.playerCount)</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(x => item.SportsName)
+                </td>
+                <td>
+                    @Html.DisplayFor(x => item.playerCount)
+                </td>
+                <td>
+
+                </td>
+            </tr>
+            }
+    </tbody>
+
+</table>

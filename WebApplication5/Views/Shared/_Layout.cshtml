@@ -27,7 +27,7 @@
     </nav>
     <div class="container body-content">
         @RenderBody()
-     
+
         <footer>
             <p class="text-center">&copy; @DateTime.Now.Year - My ASP.NET Application5</p>
         </footer>
@@ -37,5 +37,6 @@
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/bootstrap.js"></script>
     @RenderSection("scripts", required: false)
+    @RenderSection("styles", required: false)
 </body>
 </html>

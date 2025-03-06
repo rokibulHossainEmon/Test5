@@ -41,11 +41,13 @@ namespace WebApplication5.Models
         public DateTime JoinDate { get; set; }
 
         [EnumDataType(typeof(PlayerGrade))]
+        [Required, Display(Name = "Player Grade")]
         public PlayerGrade? PlayerGrade { get; set; }
 
         public String PicturePath { get; set; }
         //Foreign key
-        [ForeignKey("Sports")]
+        [ForeignKey("Sports"),
+        Required, Display(Name = "Sports")]
         public int SportsId { get; set; }
         //Navigation property
         public virtual Sports Sports { get; set; }

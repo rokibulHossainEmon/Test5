@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -7,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication5.Models;
+using WebApplication5.Models.ViewModel;
 
 namespace WebApplication5.Controllers
 {
@@ -17,9 +19,40 @@ namespace WebApplication5.Controllers
         // GET: Sports
         public ActionResult Index()
         {
-            return View(db.Sports.ToList());
+            return View();
         }
 
+        public PartialViewResult MasterView(int page=1, string sort="",string search="")
+        {
+            ViewBag.NameSort = sort == "name" ? "name_desc" : "name";
+            ViewBag.CurrentSort = sort;
+            ViewBag.CurrentSearch = search;
+            var data=db.Sports.AsEnumerable().Select(x=> new SportsViewModel
+                {
+                SportsId = x.SportsId,
+                SportsName = x.SportsName,
+                playerCount = x.Players.Count()
+            }).ToList() ;
+            switch(sort)
+            {
+                case "name":
+                    data = data.OrderBy(x => x.SportsName).ToList();
+                    break;
+                case "name_desc":
+                    data = data.OrderByDescending(x => x.SportsName).ToList();
+                    break;
+                default:
+                    data = data.OrderBy(x => x.SportsId).ToList();
+                    break;
+
+            }
+            if (!string.IsNullOrEmpty(search))
+            {
+                data = data.Where(x => x.SportsName.ToLower().StartsWith(search.ToLower())).ToList();
+            }
+            var modelData=data.ToPagedList(page, 5);
+            return PartialView("_masterDetails",modelData);
+        }   
         // GET: Sports/Details/5
         public ActionResult Details(int? id)
         {

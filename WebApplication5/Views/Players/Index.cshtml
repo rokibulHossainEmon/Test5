@@ -1,11 +1,13 @@
 ﻿@model IEnumerable<WebApplication5.Models.Player>
+
 @{
     ViewBag.Title = "Index";
 }
-
+@using PagedList;
+@using PagedList.Mvc;
 <h2 class="display-4">Player List</h2>
 <div class="d-flex justify-content-end">
-    @Html.ActionLink("Add New", "Create", new {}, new { @class = "btn btn-primary btn-sm" })
+    @Html.ActionLink("Add New", "Create", new { }, new { @class = "btn btn-primary btn-sm" })
 </div>
 
 <div class="row">
@@ -30,7 +32,8 @@
                         <td>@Html.DisplayFor(x => item.JoinDate)</td>
                         <td>@Html.DisplayFor(x => item.PlayerGrade)</td>
                         <td>
-                        <img src="@Url.Content(item.PicturePath)" width="32" /></td>
+                            <img src="@Url.Content(item.PicturePath)" width="32" style="border-radius: 10px;" />
+                        </td>
                         <td>
                             <button onclick="location.href='@Url.Action("Edit", "Players", new {id=item.PlayerId})'" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></button>
                             <button onclick="location.href='@Url.Action("Delete", "Players", new {id=item.PlayerId})'" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
@@ -38,5 +41,11 @@
                     </tr>
                 }
         </table>
+        <div class="d-flex justify-content-end">
+            @Html.PagedListPager(Model as IPagedList,page=> Url.Action("Index", new {page}))
+        </div> 
     </div>
 </div>
+@section styles{
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+}
