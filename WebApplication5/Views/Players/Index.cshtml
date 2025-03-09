@@ -7,12 +7,16 @@
 @using PagedList.Mvc;
 <h2 class="display-4">Player List</h2>
 <div class="d-flex justify-content-end">
-    @Html.ActionLink("Add New", "Create", new { }, new { @class = "btn btn-primary btn-sm" })
+ 
+    <button onclick="location.href='@Url.Action("Create", "Players")'" class="btn btn-primary btn-sm"
+            style="text-decoration:none;">
+        <i class="fa fa-plus"></i> Add New
+    </button>
 </div>
 
 <div class="row">
     <div class="col">
-        <table class="table table-bordered table-striped table-sm,mt-1">
+        <table class="table table-bordered table-striped table-sm,mt-1 text-center">
             <thead>
                 <tr>
                     <th>@Html.DisplayNameFor(x => x.PlayerName)</th>
@@ -32,11 +36,16 @@
                         <td>@Html.DisplayFor(x => item.JoinDate)</td>
                         <td>@Html.DisplayFor(x => item.PlayerGrade)</td>
                         <td>
-                            <img src="@Url.Content(item.PicturePath)" width="32" style="border-radius: 10px;" />
+                            <img src="@Url.Content(item.PicturePath)" width="32" 
+                                 style="border-radius: 8px;" />
                         </td>
                         <td>
-                            <button onclick="location.href='@Url.Action("Edit", "Players", new {id=item.PlayerId})'" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></button>
-                            <button onclick="location.href='@Url.Action("Delete", "Players", new {id=item.PlayerId})'" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                            <button onclick="location.href='@Url.Action("Edit", "Players",
+                                                           new {id=item.PlayerId})'"
+                                    class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></button>
+                            <button onclick="location.href='@Url.Action("Delete", "Players",
+                                                           new {id=item.PlayerId})'"
+                                    class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
                         </td>
                     </tr>
                 }

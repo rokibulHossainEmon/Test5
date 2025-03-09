@@ -1,0 +1,31 @@
+﻿
+@model IEnumerable<WebApplication5.Models.Player>
+
+<table class="table table-bordered table-sm table-striped" >
+    <thead class="table-primary">
+        <tr>
+            <th>@Html.DisplayNameFor(x => x.Sports.SportsId) </th>
+            <th>@Html.DisplayNameFor(x => x.PlayerName) </th>
+            <th>@Html.DisplayNameFor(x => x.JoinDate) </th>
+            <th>@Html.DisplayNameFor(x => x.PlayerGrade) </th>
+            <th> Picture</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+            {
+                <tr>
+                    <td> @Html.DisplayFor(x => item.Sports.SportsName) </td>
+                    <td> @Html.DisplayFor(x => item.PlayerName)</td>
+                    <td> @Html.DisplayFor(x => item.JoinDate)</td>
+                    <td> @Html.DisplayFor(x => item.PlayerGrade)</td>
+                    <td>
+                        <img src=" @Url.Content(item.PicturePath)" width="32"/>
+                    </td>
+
+                </tr>
+            }
+    </tbody>
+
+
+</table>

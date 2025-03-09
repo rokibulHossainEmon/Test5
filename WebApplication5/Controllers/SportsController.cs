@@ -22,18 +22,25 @@ namespace WebApplication5.Controllers
             return View();
         }
 
-        public PartialViewResult MasterView(int page=1, string sort="",string search="")
+        public PartialViewResult MasterView(int page = 1, string sort = "SportsId", string search = "")
         {
             ViewBag.NameSort = sort == "name" ? "name_desc" : "name";
             ViewBag.CurrentSort = sort;
             ViewBag.CurrentSearch = search;
-            var data=db.Sports.AsEnumerable().Select(x=> new SportsViewModel
-                {
+
+            var data = db.Sports.AsEnumerable().Select(x => new SportsViewModel
+            {
                 SportsId = x.SportsId,
                 SportsName = x.SportsName,
                 playerCount = x.Players.Count()
-            }).ToList() ;
-            switch(sort)
+            }).ToList();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                data = data.Where(x => x.SportsName.ToLower().StartsWith(search.ToLower())).ToList();
+            }
+
+            switch (sort)
             {
                 case "name":
                     data = data.OrderBy(x => x.SportsName).ToList();
@@ -41,18 +48,28 @@ namespace WebApplication5.Controllers
                 case "name_desc":
                     data = data.OrderByDescending(x => x.SportsName).ToList();
                     break;
+                case "SportsId_desc":
+                    data = data.OrderByDescending(x => x.SportsId).ToList();
+                    break;
                 default:
                     data = data.OrderBy(x => x.SportsId).ToList();
                     break;
+            }
 
-            }
-            if (!string.IsNullOrEmpty(search))
-            {
-                data = data.Where(x => x.SportsName.ToLower().StartsWith(search.ToLower())).ToList();
-            }
-            var modelData=data.ToPagedList(page, 5);
-            return PartialView("_masterDetails",modelData);
-        }   
+            var modelData = data.ToPagedList(page, 5);
+            return PartialView("_masterDetails", modelData);
+        }
+        public ActionResult PlayerList(int id)
+        {
+            return PartialView("_playerList", db.Players.Include("Sports").
+            Where(x => x.SportsId == id).ToList());
+        }
+
+        public ActionResult CrudeUI(int page = 1)
+        {
+            return View(db.Sports.OrderBy(x => x.SportsId).ToPagedList(page, 5));
+        }
+
         // GET: Sports/Details/5
         public ActionResult Details(int? id)
         {
@@ -67,7 +84,6 @@ namespace WebApplication5.Controllers
             }
             return View(sports);
         }
-
         // GET: Sports/Create
         public ActionResult Create()
         {
@@ -121,7 +137,6 @@ namespace WebApplication5.Controllers
             }
             return View(sports);
         }
-
         // GET: Sports/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -156,5 +171,6 @@ namespace WebApplication5.Controllers
             }
             base.Dispose(disposing);
         }
+
     }
 }

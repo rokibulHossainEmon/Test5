@@ -33,7 +33,8 @@ namespace WebApplication5.Controllers
             if (ModelState.IsValid)
             {
                 //for save image
-                string filePath = Path.Combine("~/Images", Guid.NewGuid().ToString() + Path.GetExtension(pvm.Picture.FileName));
+                string filePath = Path.Combine("~/Images", Guid.NewGuid().ToString() + 
+                    Path.GetExtension(pvm.Picture.FileName));
 
                 pvm.Picture.SaveAs(Server.MapPath(filePath));
 
@@ -74,7 +75,7 @@ namespace WebApplication5.Controllers
                 SportsId = player.SportsId,
                 PicturePath = player.PicturePath
             };
-            ViewBag.sports = new SelectList(db.Sports, "SportsId", "SportsName" ,pvm.PlayerId);
+            ViewBag.sports = new SelectList(db.Sports, "SportsId", "SportsName" );
             return View(pvm);
         }
 
@@ -87,7 +88,8 @@ namespace WebApplication5.Controllers
                 string filePath = pvm.PicturePath;
                 if (pvm.Picture !=null)
                 {
-                     filePath = Path.Combine("~/Images", Guid.NewGuid().ToString() + Path.GetExtension(pvm.Picture.FileName));
+                     filePath = Path.Combine("~/Images", Guid.NewGuid().ToString() +
+                         Path.GetExtension(pvm.Picture.FileName));
                     pvm.Picture.SaveAs(Server.MapPath(filePath));
                     Player player = new Player
                     {
